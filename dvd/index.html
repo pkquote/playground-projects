@@ -5,10 +5,13 @@
   <title>DVD</title>
 </head>
 <body>
-    <canvas id="tv" width="800" height="800"></canvas>
+    <div id="tv-frame">
+        <canvas id="tv" width="1" height="1"></canvas>
+    </div>
     <script>
         // Setup the canvas
         const canvas = document.querySelector('#tv');
+        const frame = document.querySelector('#tv-frame');
         const ctx = canvas.getContext('2d');
         let toggle = true;
 
@@ -21,6 +24,8 @@
         function resize(){
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            frame.width = window.outerWidth;
+            frame.height= window.outerHeight;
         }
 
         function createStatic(ctx){
@@ -57,7 +62,13 @@
         }
         #tv {
             background:rgb(128, 127, 127);
+            z-index: -1;
           }
+        #tv-frame{
+            border: auto solid rgb(54, 54, 54);
+            max-width:30rem;
+            z-index: 1;
+        }
     </style>
 </body>
 </html>
