@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DVD</title>
+</head>
+<body>
+    <canvas id="tv" width="800" height="800"></canvas>
+    <script>
+        // Setup the canvas
+        const canvas = document.querySelector('#tv');
+        const ctx = canvas.getContext('2d');
+        let toggle = true;
+
+        resize();
+        window.onresize = resize;
+    
+        loop();
+
+        // Set the size of the canvas to the window screen size
+        function resize(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createStatic(ctx){
+            let w=0;
+            let h=0;
+            [w,h] = [ctx.canvas.width,ctx.canvas.height];
+
+            // Create a new image, by default all are set to black
+            let i = ctx.createImageData(w,h);
+            buffer = new Uint32Array(i.data.buffer);
+            bufferLength = buffer.length;
+
+            for(let c = 0; c < bufferLength; c++){
+                buffer[c] = ((255 * Math.random() | 0) << 24)
+            }
+
+            // Use put image data to place the generated image onto the canvas
+            ctx.putImageData(i, 0, 0);
+        }
+
+        function loop(){
+            toggle = !toggle;
+            if(toggle){
+                setTimeout(requestAnimationFrame(loop),5200);
+                return;
+            }
+            createStatic(ctx)
+            setTimeout(requestAnimationFrame(loop),5200);
+        }
+    </script>
+    <style>
+        html, body {
+          margin: 0;
+        }
+        #tv {
+            background:rgb(128, 127, 127);
+          }
+    </style>
+</body>
+</html>
